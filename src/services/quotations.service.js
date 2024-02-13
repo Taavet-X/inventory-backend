@@ -48,11 +48,17 @@ async function updateStatus(code, body){
         session.startTransaction();
         const quotation = await Quotation.findOne({_id:code})    
         quotation.status = body.status
-        if(body.status == "Confirmada"){
+        if(body.status == "Completada"){
             const items = quotation.items
             for(let i = 0; i < items.length; i++){
                 const item = items[i]
-                console.log(item)
+                const itemDoc = await Item.findOne({_id:item._id})
+                if(itemDoc == null){
+                    throw new Error("No se encontro el producto " + item._id)
+                }
+                if(itemDoc.stock -item.quantity < 0) {
+                    throw new Error("No hay suficiente producto " + itemDoc._id)
+                }
                 await Item.findOneAndUpdate({_id:item._id}, {$inc : {stock : -item.quantity}})
             }        
         }

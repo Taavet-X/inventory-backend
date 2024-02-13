@@ -9,6 +9,7 @@ app.use(express.json());
 
 app.use('/items', require('./src/routes/items.route'))
 app.use('/quotations', require('./src/routes/quotations.route'))
+app.use('/login', require('./src/routes/login.route'))
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)

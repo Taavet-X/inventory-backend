@@ -18,7 +18,7 @@ router.get('/:page', async (req, res)=>{
             const result = await deleteAll()
             res.status(200).json(result) 
         } else {
-            const result = await findAll(req.query.search_value,req.params.page)
+            const result = await findAll(req.query.search_value,req.params.page,req.query.low_quantity)
             res.status(200).json(result) 
         }
     } catch (e){

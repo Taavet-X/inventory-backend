@@ -8,7 +8,9 @@ const itemSchema = new Schema({
         unique:true, 
         index:true, 
         required:true},
-    stock:Number,
+    stock:{
+        type:Number,
+        min: [0,"No hay suficiente producto"]},
     purchase_price:Number,
     sale_price:Number
 });
