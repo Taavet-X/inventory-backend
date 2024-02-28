@@ -34,8 +34,12 @@ async function findAll(searchValue, page, low_quantity){
         filter = {stock:{$lte:3}}
     }
     console.log(filter)
-    const items = await Item.find(filter).sort('stock').skip(20*page).limit(20)
-    return items
+    if(page){
+        return await Item.find(filter).sort('stock').skip(20*page).limit(20)    
+    } else {
+        return await Item.find(filter).sort('stock')
+    }    
+    //return items
 }
 
 async function findOne(_id){        

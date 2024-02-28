@@ -13,7 +13,7 @@ async function create(body){
 async function findAll(query){
     var filter = {}        
     if(query.searchValue){                         
-        filter["reference"] = {'$regex': searchValue, $options:'i'}
+        filter["reference"] = {'$regex': query.searchValue, $options:'i'}
     }    
     const statusFilter = []
     if(query.pending == "true") statusFilter.push('Pendiente')
@@ -23,11 +23,13 @@ async function findAll(query){
         filter["status"] = {"$in":statusFilter}
     } else {
         filter["status"] = 'noone'
-    }    
-    console.log(query)
-    console.log(filter)
-    const quotations = await Quotation.find(filter).sort({createdAt: -1}).skip(5*query.page).limit(5)
-    return quotations
+    }
+    if(query.page){
+        return await Quotation.find(filter).sort({createdAt: -1}).skip(5*query.page).limit(5)
+    } else {
+        return await Quotation.find(filter).sort({createdAt: -1})
+    }
+    //return quotations
 }
 
 async function findOne(code){        
