@@ -3,6 +3,12 @@ const mongoose = require('mongoose');
 const { Schema, model } = mongoose;
 
 const quotationSchema = new Schema({
+    vehicle:String,
+    customer:String,
+    work_number:String,
+    technician:String,
+    diagnosis:String,
+
     reference:String,
     items:{
         type:[{

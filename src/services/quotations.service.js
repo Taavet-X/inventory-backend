@@ -12,8 +12,14 @@ async function create(body){
 
 async function findAll(query){
     var filter = {}        
-    if(query.searchValue){                         
-        filter["reference"] = {'$regex': query.searchValue, $options:'i'}
+    if(query.searchValue){ 
+        if(isNaN(query.searchValue)){
+            filter["vehicle"] = {'$regex': query.searchValue, $options:'i'}
+        } else {
+            filter["work_number"] = {'$regex': query.searchValue, $options:'i'}
+        }                     
+        
+        
     }    
     const statusFilter = []
     if(query.pending == "true") statusFilter.push('Pendiente')
