@@ -11,10 +11,14 @@ async function create(body){
 }
 
 async function findAll(query){
-    var filter = {}        
+    var filter = {}   
+    var orList = []     
     if(query.searchValue){ 
         if(isNaN(query.searchValue)){
-            filter["vehicle"] = {'$regex': query.searchValue, $options:'i'}
+            // filter["vehicle"] = {'$regex': query.searchValue, $options:'i'}
+            orList.push({vehicle:{'$regex': query.searchValue, $options:'i'}})
+            orList.push({customer:{'$regex': query.searchValue, $options:'i'}})
+            filter['$or'] = orList
         } else {
             filter["work_number"] = {'$regex': query.searchValue, $options:'i'}
         }                     
